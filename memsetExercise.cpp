@@ -1,4 +1,4 @@
-// memset exercise
+ï»¿// memset exercise
 
 #include <iostream>
 #include <vector>
@@ -12,7 +12,7 @@ int main()
 
 	// The value is passed as an int
 	// but the function fills the block of memory using the unsigned char conversion of this value.
-	// memsetÀº 0 È¤Àº NULL, false·Î ¸¸ ÃÊ±âÈ­ °¡´É
+	// memsetì€ 0 í˜¹ì€ NULL, falseë¡œ ë§Œ ì´ˆê¸°í™” ê°€ëŠ¥
 	for (int i = 0; i < 10; i++) memset(arr[i], 0, sizeof(arr[i])); // sizeof(int) * 10
 
 	for (int i = 0; i < 10; i++) {
