@@ -17,6 +17,7 @@ char building[30][30][30];
 coord s, e;
 coord d[6] = { {0,0,1},{0,1,0},{0,0,-1}, {0,-1,0},{1,0,0},{-1,0,0} };
 bool visited[30][30][30];
+int t[30][30][30];
 
 bool BFS();
 
@@ -51,13 +52,20 @@ int main()
 		for (int i = 0; i < L; i++) {
 			for (int j = 0; j < R; j++) {
 				memset(visited[i][j], false, sizeof(visited[i][j]));
-				//for (int k = 0; k < R; k++) t[i][j][k] = 987654321;
+			}
+		}
+
+		for (int i = 0; i < L; i++) {
+			for (int j = 0; j < R; j++) {
+				for (int k = 0; k < C; k++) {
+					t[i][j][k] = 987654321;
+				}
 			}
 		}
 
 		bool answer = BFS();
 
-		if (answer) cout << "Escaped in (x)minute(s).\n";
+		if (answer) cout << "Escaped in " << t[e.x][e.y][e.z] << " minute(s).\n";
 		else cout << "Trapped!\n";
 	}
 
@@ -66,17 +74,21 @@ int main()
 
 bool BFS()
 {
+	bool flag = false;
+
 	queue<coord> q;
 	q.push(s);
 
 	visited[s.x][s.y][s.z] = true;
+	t[s.x][s.y][s.z] = 0;
+
 
 	while (!q.empty()) {
 		int nowl = q.front().x;
 		int nowr = q.front().y;
 		int nowc = q.front().z;
 
-		if (building[nowl][nowr][nowc] == 'E') return true;
+		if (building[nowl][nowr][nowc] == 'E') flag = true;
 
 		q.pop();
 
@@ -89,10 +101,17 @@ bool BFS()
 
 			if ((building[nextl][nextr][nextc] == '.' || building[nextl][nextr][nextc] == 'E') && !visited[nextl][nextr][nextc]) {
 				visited[nextl][nextr][nextc] = true;
+				t[nextl][nextr][nextc] = (t[nowl][nowr][nowc] + 1 < t[nextl][nextr][nextc]) ? t[nowl][nowr][nowc] + 1 : t[nextl][nextr][nextc];
 				q.push({ nextl, nextr, nextc });
 			}
 		}
 	}
 
-	return false;
+	return flag;
 }
+
+/*
+
+1 try : 실패, 띄어쓰기 안해서 틀림...
+
+*/
